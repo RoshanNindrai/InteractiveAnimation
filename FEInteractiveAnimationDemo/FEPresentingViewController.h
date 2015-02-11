@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FEPresentingViewController : UIViewController <UIViewControllerTransitioningDelegate>
+@interface FEPresentingViewController : UIViewController 
 
 
 @end

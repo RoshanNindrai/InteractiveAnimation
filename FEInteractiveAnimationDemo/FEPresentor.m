@@ -26,17 +26,14 @@
     toView.center = CGPointMake(transitionContext.containerView.center.x, -transitionContext.containerView.center.y);
     
     [transitionContext.containerView addSubview:toView];
-
     
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position.y"];
-    
-        animation.fromValue = [NSNumber numberWithFloat:-transitionContext.containerView.center.y];
-       animation.toValue = [NSNumber numberWithFloat:(transitionContext.containerView.center.y + 100)];
-    
-    animation.duration = [self transitionDuration:transitionContext];
-    [toView.layer addAnimation:animation forKey:animation.keyPath];
-    toView.center = CGPointMake(transitionContext.containerView.center.x, transitionContext.containerView.center.y + 100);
-    [transitionContext completeTransition:YES];
+    [UIView animateWithDuration:.50 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+        toView.center = CGPointMake(transitionContext.containerView.center.x, transitionContext.containerView.center.y + 100);
+        
+    } completion:^(BOOL finished) {
+        [transitionContext completeTransition:YES];
+    }];
     
     
 }

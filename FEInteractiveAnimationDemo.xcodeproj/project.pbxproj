@@ -19,6 +19,8 @@
 		014E6E691A89A9A10080CE3F /* FEPresentedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 014E6E671A89A9A10080CE3F /* FEPresentedController.m */; };
 		01BAF1FC1A89AC1B0014B148 /* FEPresentor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01BAF1FB1A89AC1B0014B148 /* FEPresentor.m */; };
 		01BAF1FD1A89AC1B0014B148 /* FEPresentor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01BAF1FB1A89AC1B0014B148 /* FEPresentor.m */; };
+		01F382AB1A8AF6D2002B255C /* FEAnimationInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F382AA1A8AF6D2002B255C /* FEAnimationInteractor.m */; };
+		01F382AC1A8AF6D2002B255C /* FEAnimationInteractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01F382AA1A8AF6D2002B255C /* FEAnimationInteractor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		014E6E671A89A9A10080CE3F /* FEPresentedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FEPresentedController.m; sourceTree = "<group>"; };
 		01BAF1FA1A89AC1B0014B148 /* FEPresentor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FEPresentor.h; sourceTree = "<group>"; };
 		01BAF1FB1A89AC1B0014B148 /* FEPresentor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FEPresentor.m; sourceTree = "<group>"; };
+		01F382A91A8AF6D2002B255C /* FEAnimationInteractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FEAnimationInteractor.h; sourceTree = "<group>"; };
+		01F382AA1A8AF6D2002B255C /* FEAnimationInteractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FEAnimationInteractor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +94,7 @@
 		01171C871A89A78600AEE801 /* FEInteractiveAnimationDemo */ = {
 			isa = PBXGroup;
 			children = (
+				01F382A81A8AF6AB002B255C /* Interactors */,
 				014E6E6A1A89A9FD0080CE3F /* Animators */,
 				01171CB11A89A7B400AEE801 /* Assets */,
 				01171CAF1A89A79900AEE801 /* Controllers */,
@@ -178,6 +183,15 @@
 				01BAF1FB1A89AC1B0014B148 /* FEPresentor.m */,
 			);
 			name = Animators;
+			sourceTree = "<group>";
+		};
+		01F382A81A8AF6AB002B255C /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				01F382A91A8AF6D2002B255C /* FEAnimationInteractor.h */,
+				01F382AA1A8AF6D2002B255C /* FEAnimationInteractor.m */,
+			);
+			name = Interactors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,6 +299,7 @@
 				01171C8E1A89A78600AEE801 /* AppDelegate.m in Sources */,
 				01BAF1FC1A89AC1B0014B148 /* FEPresentor.m in Sources */,
 				01171C8B1A89A78600AEE801 /* main.m in Sources */,
+				01F382AB1A8AF6D2002B255C /* FEAnimationInteractor.m in Sources */,
 				014E6E681A89A9A10080CE3F /* FEPresentedController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,6 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01F382AC1A8AF6D2002B255C /* FEAnimationInteractor.m in Sources */,
 				01171CA51A89A78600AEE801 /* FEInteractiveAnimationDemoTests.m in Sources */,
 				01BAF1FD1A89AC1B0014B148 /* FEPresentor.m in Sources */,
 				014E6E691A89A9A10080CE3F /* FEPresentedController.m in Sources */,

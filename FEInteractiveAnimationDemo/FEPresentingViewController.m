@@ -7,10 +7,12 @@
 //
 
 #import "FEPresentingViewController.h"
-#import "FEPresentor.h"
-#import "FEPresentedController.h"
+#import "FEAnimationInteractor.h"
+
 
 @interface FEPresentingViewController ()
+
+@property(nonatomic, strong)FEAnimationInteractor *interactor;
 
 @end
 
@@ -18,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.interactor = [[FEAnimationInteractor alloc] initWithViewController:self];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -28,30 +31,10 @@
 
 - (IBAction)startAnimation:(id)sender {
     
-    FEPresentedController *presentedController = [FEPresentedController new];
-    [presentedController setTransitioningDelegate:self];
-    presentedController.modalPresentationStyle = UIModalPresentationCustom;
-    
-    [self.navigationController presentViewController:presentedController
-                                            animated:YES
-                                          completion:NULL];
-    
-}
-#pragma mark transition animatino delegate
-
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-    
-    
-    return nil;
+    [self.interactor startAnimating];
     
 }
 
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                 presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    
-    return [FEPresentor new];
-    
-    
-}
+
 
 @end
