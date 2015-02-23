@@ -13,7 +13,7 @@
 -(void)viewDidLoad {
     
     [self.view.layer setCornerRadius:10.0f];
-    [self.view setBackgroundColor:[UIColor lightGrayColor]];
+    [self.view setBackgroundColor:[UIColor blueColor]];
     
 }
 

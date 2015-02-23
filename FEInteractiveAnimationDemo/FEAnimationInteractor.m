@@ -13,6 +13,9 @@
 
 @property(assign)BOOL isAnimating;
 @property(nonatomic, weak)UIViewController * parentViewController;
+@property(nonatomic, weak)UIView * presentedView;
+@property(nonatomic, assign)CGPoint initialViewCenter;
+@property(nonatomic, strong)id<UIViewControllerContextTransitioning> transitionContext;
 
 @end
 
@@ -24,24 +27,41 @@
     if(self) {
         
         self.parentViewController = viewController;
-        [self setGestureRecognizers];
+    
     }
     
     return self;
     
 }
 
--(void)setGestureRecognizers {
-    
-    UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didUserPan:)];
-    [gestureRecognizer setDelegate:self];
-    [self.parentViewController.view addGestureRecognizer:gestureRecognizer];
-    
-}
-
 -(void)didUserPan:(UIPanGestureRecognizer *)gestureRecognizer {
     
-    NSLog(@"Did pan %@", NSStringFromCGPoint([gestureRecognizer locationInView:gestureRecognizer.view]));
+    
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        
+        self.presentedView.transform = CGAffineTransformScale(self.presentedView.transform, .9, .9);
+            CALayer *layer = self.presentedView.layer.presentationLayer;
+        
+            self.presentedView.layer.position = layer.position;
+            [self.presentedView.layer removeAllAnimations];
+            self.initialViewCenter = self.presentedView.center;
+        
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        CGPoint translation = [gestureRecognizer translationInView:gestureRecognizer.view];
+        
+        CGPoint centerTranslated = self.initialViewCenter;
+        centerTranslated.x += translation.x;
+        centerTranslated.y += translation.y;
+        self.presentedView.center = centerTranslated;
+        
+    }
+    if(gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        
+        self.presentedView.transform = CGAffineTransformIdentity;
+        
+    }
     
     
 }
@@ -59,53 +79,81 @@
 }
 
 
-- (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext
+- (NSTimeInterval)transitionDuration:(id)transitionContext
 {
     return 1.0f;
 }
 
-- (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext
-{
+-(void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     
-    UIView *toView = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view;
-    toView.frame = CGRectMake(0,
-                              0,
-                              CGRectGetWidth(transitionContext.containerView.bounds) - 104.f,
-                              CGRectGetHeight(transitionContext.containerView.bounds) - 288.f);
-    toView.center = CGPointMake(transitionContext.containerView.center.x, -transitionContext.containerView.center.y);
-    
-    [transitionContext.containerView addSubview:toView];
-    
-    [UIView animateWithDuration:.50 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        
-        toView.center = CGPointMake(transitionContext.containerView.center.x, transitionContext.containerView.center.y + 100);
-        
-    } completion:^(BOOL finished) {
-        [transitionContext completeTransition:YES];
-    }];
+    return;
     
 }
 
 -(void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
     
+    UIPanGestureRecognizer *gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didUserPan:)];
+    [gestureRecognizer setDelegate:self];
+    [transitionContext.containerView addGestureRecognizer:gestureRecognizer];
+    self.transitionContext = transitionContext;
     
+    self.presentedView = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view;
+    self.presentedView.frame = CGRectMake(0,
+                              0,
+                              CGRectGetWidth(transitionContext.containerView.bounds) - 104.f,
+                              CGRectGetHeight(transitionContext.containerView.bounds) - 288.f);
+    self.presentedView.center = CGPointMake(transitionContext.containerView.center.x, -transitionContext.containerView.center.y);
+    
+    [transitionContext.containerView addSubview:self.presentedView];
+    
+    [UIView animateWithDuration:1 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        
+        self.presentedView.center = CGPointMake(transitionContext.containerView.center.x, transitionContext.containerView.center.y + 150);
+        
+    } completion:^(BOOL finished) {
+        
+        if(finished) {
+            
+            [gestureRecognizer.view removeGestureRecognizer:gestureRecognizer];
+            [transitionContext finishInteractiveTransition];
+            [transitionContext completeTransition:YES];
+            
+        }
+    }];
+
     
 }
 
 #pragma mark UIViewControllerTransitioningDelegate Methods
 
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+- (id<UIViewControllerInteractiveTransitioning>)
+interactionControllerForPresentation:(id<UIViewControllerAnimatedTransitioning>)animator {
+    
+    
+    return (id<UIViewControllerInteractiveTransitioning>)self;
+}
+
+- (id<UIViewControllerInteractiveTransitioning>)
+interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator {
+    
+    return (id<UIViewControllerInteractiveTransitioning>)self;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)
+animationControllerForPresentedController:(UIViewController *)presented
+presentingController:(UIViewController *)presenting
+sourceController:(UIViewController *)source {
     
     
     return self;
     
 }
 
--(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
-                                                                 presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+- (id<UIViewControllerAnimatedTransitioning>)
+animationControllerForDismissedController:(UIViewController *)dismissed {
+    
     
     return self;
-    
     
 }
 

@@ -20,6 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController.navigationBar setHidden:YES];
     self.interactor = [[FEAnimationInteractor alloc] initWithViewController:self];
     // Do any additional setup after loading the view, typically from a nib.
 }
